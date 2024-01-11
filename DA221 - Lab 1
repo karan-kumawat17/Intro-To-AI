@@ -1,0 +1,89 @@
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+
+// Check if Solvable or not:
+bool check_if_solvable(vector<int> v){
+    int inversions = 0;
+    for(int i = 0; i < v.size(); i++){
+        for(int j = i+1; j < v.size(); j++){
+            if((v[i] > v[j]) && (v[i] != 0 || v[j] != 0)){
+                inversions++;
+            }
+        }
+    }
+    
+    cout << inversions << endl;
+    
+    if(inversions%2 == 0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+// Matrix Generation : 
+void generate_random_matrix(){
+    vector<int> M1;
+    vector<int> M2;
+    
+    int A[3][3], B[3][3];
+    
+    for(int i = 0; i < 9; i++){
+        M1.push_back(i);
+        M2.push_back(i);
+    }
+    
+    for(int i = 0; i < 9; i++){
+        swap(M1[i], M1[rand()%9]);
+        swap(M2[i], M2[rand()%9]);
+    }
+    int cnt = 0;
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            A[i][j] = M1[cnt];
+            cnt++;
+        }
+    }
+    cnt = 0;
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            B[i][j] = M2[cnt];
+            cnt++;
+        }
+    }
+    
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            cout << A[i][j] << " ";
+        }
+        cout << endl;
+    }
+    
+    cout << endl;
+    
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            cout << B[i][j] << " ";
+        }
+        cout << endl;
+    }
+    
+    if(check_if_solvable(M1) == true){
+        cout << "SOlVABLE" << endl;
+    }
+    else{
+        cout << "NOPE" << endl;
+    }
+}
+
+
+
+int main() {
+    srand(time(0));
+    
+    generate_random_matrix();
+    
+    return 0;
+}
