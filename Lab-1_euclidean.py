@@ -242,21 +242,10 @@ def run_experiment():
         steps_list.append(total_steps)
 
     # Plotting
-    plt.figure(figsize=(10, 5))
-
-    plt.subplot(1, 3, 1)
     plt.plot(time_taken_list, 'o-')
     plt.title('Time Taken')
-
-    plt.subplot(1, 3, 2)
-    plt.plot(nodes_removed_list, 'o-')
-    plt.title('Nodes Removed from Frontier')
-
-    plt.subplot(1, 3, 3)
-    plt.plot(steps_list, 'o-')
-    plt.title('Total Steps')
-
-    plt.tight_layout()
+    plt.xlabel('Instance')
+    plt.ylabel('Time (seconds)')
     plt.show()
 
 if __name__ == "__main__":
