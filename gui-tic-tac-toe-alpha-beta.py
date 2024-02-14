@@ -58,7 +58,7 @@ def available_moves(board):
     return [(i, j) for i in range(3) for j in range(3) if board[i][j] == ' ']
 
 
-def minimax(board, depth, maximizing_player, nodes_visited):
+def minimax(board, depth, maximizing_player, nodes_visited, alpha, beta):
     winner = check_winner(board)
     if winner:
         return 1 if winner == 'X' else -1
@@ -72,32 +72,41 @@ def minimax(board, depth, maximizing_player, nodes_visited):
         for move in available_moves(board):
             i, j = move
             board[i][j] = 'X'
-            eval = minimax(board, depth + 1, False, nodes_visited)
+            eval = minimax(board, depth + 1, False, nodes_visited, alpha, beta)
             board[i][j] = ' '
             max_eval = max(max_eval, eval)
+            alpha = max(alpha, eval)
+            if beta <= alpha:
+                break
         return max_eval
     else:
         min_eval = float('inf')
         for move in available_moves(board):
             i, j = move
             board[i][j] = 'O'
-            eval = minimax(board, depth + 1, True, nodes_visited)
+            eval = minimax(board, depth + 1, True, nodes_visited, alpha, beta)
             board[i][j] = ' '
             min_eval = min(min_eval, eval)
+            beta = min(beta, eval)
+            if beta <= alpha:
+                break
         return min_eval
 
 
 def best_move(board, depth_limit, nodes_visited):
     best_val = float('-inf')
+    alpha = float('-inf')
+    beta = float('inf')
     best_move = None
     for move in available_moves(board):
         i, j = move
         board[i][j] = 'X'
-        move_val = minimax(board, 0, False, nodes_visited)
+        move_val = minimax(board, 0, False, nodes_visited, alpha, beta)
         board[i][j] = ' '
         if move_val > best_val:
             best_val = move_val
             best_move = (i, j)
+        alpha = max(alpha, move_val)
     return best_move
 
 def main():
