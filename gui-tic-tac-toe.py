@@ -66,6 +66,7 @@ def minimax(board, depth, maximizing_player, nodes_visited):
         return 0
 
     nodes_visited[0] += 1
+    #print(f"At depth {depth}, Nodes Visited: {nodes_visited[0]}")
 
     if maximizing_player:
         max_eval = float('-inf')
@@ -104,7 +105,7 @@ def main():
     board = [[' ' for _ in range(3)] for _ in range(3)]
     player_turn = random.choice([True, False])
 
-    depth_limit = 5
+    depth_limit = 9
     nodes_visited = [0]
 
     while True:
@@ -127,9 +128,18 @@ def main():
 
         winner = check_winner(board)
         if winner:
-            pygame.time.wait(1000)
+            print(f"{winner} wins!")
+            # Get the winning tiles and color them
+            for combination in get_winning_combination(board, winner):
+                i, j = combination
+                pygame.draw.rect(screen, (255, 0, 0) if winner == 'X' else (0, 255, 0),
+                                 (j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+
+            pygame.display.flip()
+            pygame.time.wait(2000)
             pygame.quit()
             sys.exit()
+
         elif is_board_full(board):
             pygame.time.wait(1000)
             pygame.quit()
@@ -142,6 +152,26 @@ def main():
             player_turn = not player_turn
 
         pygame.display.flip()
+
+
+def get_winning_combination(board, winner):
+    # Check rows
+    for i in range(3):
+        if all(cell == winner for cell in board[i]):
+            return [(i, j) for j in range(3)]
+
+    # Check columns
+    for j in range(3):
+        if all(board[i][j] == winner for i in range(3)):
+            return [(i, j) for i in range(3)]
+
+    # Check diagonals
+    if all(board[i][i] == winner for i in range(3)):
+        return [(i, i) for i in range(3)]
+    if all(board[i][2 - i] == winner for i in range(3)):
+        return [(i, 2 - i) for i in range(3)]
+
+    return []
 
 if __name__ == "__main__":
     main()
