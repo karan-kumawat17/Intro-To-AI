@@ -1,6 +1,6 @@
 # Intro-To-AI
 
-## Pre-requisite : numpy and matplotlib libraries
+## Pre-requisite : numpy and matplotlib and pygame libraries
 
 ### Note : It will ask user for input but I have taken care of that by explaining in the terminal of writing format
 #### For e.g. :
